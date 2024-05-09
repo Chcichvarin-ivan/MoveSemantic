@@ -2,10 +2,11 @@
  * @Author: Ivan Chichvarin ichichvarin@humanplus.ru
  * @Date: 2024-05-02 23:07:13
  * @LastEditors: Ivan Chichvarin ichichvarin@humanplus.ru
- * @LastEditTime: 2024-05-02 23:07:19
+ * @LastEditTime: 2024-05-09 17:26:03
  * @FilePath: /moveSemantics/move_semantics.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
+#include <algorithm>
 #include <cassert>
 #include <iostream>
 #include <numeric>
@@ -15,8 +16,63 @@ using namespace std;
 
 template <typename RandomIt>
 void MakeJosephusPermutation(RandomIt first, RandomIt last, uint32_t step_size) {
-    vector<typename RandomIt::value_type> pool(first, last);
-    size_t cur_pos = 0;
+    vector<typename RandomIt::value_type> pool;
+    size_t vector_size = static_cast<size_t>(std::distance(first,last));
+    size_t step_count = 0;  
+    pool.reserve(vector_size);
+    RandomIt iterator = first;
+  
+    pool.push_back(std::move(*iterator));
+    
+    size_t cur_pos = (step_size) % vector_size;
+    std::advance(iterator, cur_pos);
+
+    while(step_count != vector_size-1){
+
+        while(std::find(pool.begin(), pool.end(), *iterator) != pool.end()) {//contains
+            if(std::next(iterator, 1)!= last){
+                    std::advance(iterator, 1);
+            }else{
+                    iterator = first;
+            }
+        }
+  
+        pool.push_back(std::move(*iterator));
+        
+        if(++step_count == vector_size-1){
+            RandomIt poolIterator = pool.begin();
+            while(first!=last){
+                *(first++) = move(*poolIterator++);
+            }
+            break;
+        }
+        
+        cur_pos = 0;
+        if(std::next(iterator, 1)!= last){
+            std::advance(iterator, 1);
+        }else{
+            iterator = first;
+        }
+        
+        while(cur_pos != step_size-1){
+            while(std::find(pool.begin(), pool.end(), *iterator) != pool.end()) {//contains
+                if(std::next(iterator, 1)!= last){
+                    std::advance(iterator, 1);
+                }else{
+                    iterator = first;
+                }
+            }
+            if(std::next(iterator, 1)!= last){
+                std::advance(iterator, 1);
+            }else{
+                    iterator = first;
+            }
+             cur_pos++;
+            }
+            
+        }
+      
+    /*size_t cur_pos = 0;
     while (!pool.empty()) {
         *(first++) = pool[cur_pos];
         pool.erase(pool.begin() + cur_pos);
@@ -24,7 +80,7 @@ void MakeJosephusPermutation(RandomIt first, RandomIt last, uint32_t step_size) 
             break;
         }
         cur_pos = (cur_pos + step_size - 1) % pool.size();
-    }
+    }*/
 }
 
 vector<int> MakeTestVector() {
