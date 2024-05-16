@@ -2,7 +2,7 @@
  * @Author: Ivan Chichvarin ichichvarin@humanplus.ru
  * @Date: 2024-05-02 23:07:13
  * @LastEditors: Ivan Chichvarin ichichvarin@humanplus.ru
- * @LastEditTime: 2024-05-09 17:26:03
+ * @LastEditTime: 2024-05-09 17:38:04
  * @FilePath: /moveSemantics/move_semantics.cpp
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -71,16 +71,6 @@ void MakeJosephusPermutation(RandomIt first, RandomIt last, uint32_t step_size) 
             }
             
         }
-      
-    /*size_t cur_pos = 0;
-    while (!pool.empty()) {
-        *(first++) = pool[cur_pos];
-        pool.erase(pool.begin() + cur_pos);
-        if (pool.empty()) {
-            break;
-        }
-        cur_pos = (cur_pos + step_size - 1) % pool.size();
-    }*/
 }
 
 vector<int> MakeTestVector() {
